@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
+<h1><spring:message code="app.title"/></h1>
 <a href="/about">about</a><br>
 <sec:authorize access="isAuthenticated()">
 <form action="<c:url value="/logout"/>" method="post">
