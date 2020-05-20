@@ -19,3 +19,6 @@ values (1, 'Brak'),
        (2, 'żywność'),
        (3, 'napoje'),
        (4, 'chemia');
+
+insert into items (id, name, quantity, category_id, metric_id, storage_id)
+values (1, 'nazwa produktu', 1.0, 1, 1, 1);
