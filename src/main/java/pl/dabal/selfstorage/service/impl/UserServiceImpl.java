@@ -1,16 +1,20 @@
-package pl.dabal.selfstorage.service;
+package pl.dabal.selfstorage.service.impl;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import pl.dabal.selfstorage.model.Role;
 import pl.dabal.selfstorage.model.User;
 import pl.dabal.selfstorage.repository.RoleRepository;
 import pl.dabal.selfstorage.repository.UserRepository;
+import pl.dabal.selfstorage.service.UserService;
+
 
 import java.util.Arrays;
 import java.util.HashSet;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
