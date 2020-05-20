@@ -1,14 +1,16 @@
-package pl.dabal.selfstorage.model;
+package pl.dabal.selfstorage.model.dto;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.stereotype.Component;
+import pl.dabal.selfstorage.model.Category;
+import pl.dabal.selfstorage.model.Metric;
+import pl.dabal.selfstorage.model.Storage;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 
-@Entity
-@Table(name = "items")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,9 +18,8 @@ import javax.validation.constraints.NotBlank;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ItemDto {
+
     private Long id;
 
     @NotNull
@@ -28,16 +29,10 @@ public class Item {
     @DecimalMin("0.0")
     private Double quantity;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
     private Metric metric;
 
-    @NotNull
-    @ManyToOne
     private Storage storage;
 
 

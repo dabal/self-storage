@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 public class Storage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

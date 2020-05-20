@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 public class Metric {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
