@@ -23,15 +23,12 @@ import java.util.List;
 @Slf4j
 public class StorageController {
 
-    private CategoryService categoryService;
-    private MetricService metricService;
-    private UserService userService;
+
     private StorageService storageService;
-    private ItemService itemService;
+
 
     @GetMapping("/details")
     public String getStorageDetails(@RequestParam Long id, Model model, @AuthenticationPrincipal CurrentUser user) throws FormFraudException {
-        log.error(user.toString());
         Storage storage = storageService.getStorageByIdAndUser(id, user.getUser()).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Wrong Data, or you have insufficient privileges."));
         model.addAttribute("items", storageService.getItemsForStorage(storage));
         return "storage/storageDetails";
