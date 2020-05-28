@@ -1,15 +1,13 @@
 package pl.dabal.selfstorage.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.dabal.selfstorage.model.Category;
-import pl.dabal.selfstorage.model.Metric;
-import pl.dabal.selfstorage.model.Storage;
-import pl.dabal.selfstorage.model.User;
+import pl.dabal.selfstorage.model.*;
 import pl.dabal.selfstorage.model.dto.ItemDto;
 import pl.dabal.selfstorage.service.*;
 
@@ -29,23 +27,20 @@ public class ItemController {
 
 
     @GetMapping("/add")
-    public String addItem(@RequestParam(required = false) Long id, Model model) {
-        User user = userService.findByUserName("username");
-
+    public String addItem(@RequestParam(required = false) Long id, Model model, @AuthenticationPrincipal CurrentUser user) {
         ItemDto itemDto = itemService.getItemDtoForItemId(id);
         model.addAttribute("itemDto", itemDto);
-        model.addAttribute("storageList", storageService.getStorageListForUser(user));
+        model.addAttribute("storageList", storageService.getStorageListForUser(user.getUser()));
         return "item/addItem";
     }
 
     @PostMapping("/add")
-    public String saveItem(@RequestParam(required = false) Long id, @Validated ItemDto itemDto, BindingResult result) {
+    public String saveItem(@RequestParam(required = false) Long id, @Validated ItemDto itemDto, BindingResult result, @AuthenticationPrincipal CurrentUser user) {
         if (result.hasErrors()) {
             return "item/addItem";
         }
         try {
-            User user = userService.findByUserName("username");
-            itemService.saveItemFromDtoForUser(itemDto, user);
+            itemService.saveItemFromDtoForUser(itemDto, user.getUser());
         } catch (Exception e) {
             ;
         }
