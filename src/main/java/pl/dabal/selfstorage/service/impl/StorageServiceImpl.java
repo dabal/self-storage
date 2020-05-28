@@ -29,8 +29,8 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public Optional<Storage> getStorageById(Long id) {
-        return storageRepository.findById(id);
+    public Optional<Storage> getStorageByIdAndUser(Long id, User user) {
+        return storageRepository.findByIdAndUser(id, user);
     }
 
     @Override

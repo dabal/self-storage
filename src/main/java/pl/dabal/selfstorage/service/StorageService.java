@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface StorageService {
     public List<Storage> getStorageListForUser(User user);
 
-    Optional<Storage> getStorageById(Long id);
+    Optional<Storage> getStorageByIdAndUser(Long id, User user);
 
     List<Item> getItemsForStorage(Storage storage);
 }

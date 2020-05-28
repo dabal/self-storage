@@ -21,7 +21,6 @@ public class Storage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     @NotNull
     @ManyToOne
     private User user;

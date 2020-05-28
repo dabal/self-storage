@@ -33,10 +33,7 @@ public class StorageController {
     public String getStorageDetails(@RequestParam Long id, Model model) throws FormFraudException {
         User user = userService.findByUserName("username");
         log.error(id.toString());
-        Storage storage = storageService.getStorageById(id).orElseThrow(() -> new FormFraudException("someone try to modify form"));
-        if (storageService.getStorageById(id).get().getUser() != user) {
-            throw new FormFraudException("someone try to modify form");
-        }
+        Storage storage = storageService.getStorageByIdAndUser(id, user).orElseThrow(() -> new FormFraudException("someone try to modify form"));
         model.addAttribute("items", storageService.getItemsForStorage(storage));
         return "storage/storageDetails";
     }
