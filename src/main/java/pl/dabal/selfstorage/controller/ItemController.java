@@ -1,12 +1,15 @@
 package pl.dabal.selfstorage.controller;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import pl.dabal.selfstorage.exception.FormFraudException;
 import pl.dabal.selfstorage.model.*;
 import pl.dabal.selfstorage.model.dto.ItemDto;
 import pl.dabal.selfstorage.service.*;
@@ -41,8 +44,10 @@ public class ItemController {
         }
         try {
             itemService.saveItemFromDtoForUser(itemDto, user.getUser());
-        } catch (Exception e) {
-            ;
+        } catch (FormFraudException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Wrong Data, or you have insufficient privileges."
+            );
         }
         return "redirect:/storage/details?id=" + itemDto.getStorage().getId();
     }
