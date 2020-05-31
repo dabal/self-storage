@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.dabal.selfstorage.model.Role;
 import pl.dabal.selfstorage.model.User;
+import pl.dabal.selfstorage.model.dto.UserDto;
 import pl.dabal.selfstorage.repository.RoleRepository;
 import pl.dabal.selfstorage.repository.UserRepository;
 import pl.dabal.selfstorage.service.UserService;
@@ -40,5 +41,10 @@ public class UserServiceImpl implements UserService {
         Role userRole = roleRepository.findByName("ROLE_USER");
         user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
         userRepository.save(user);
+    }
+
+    @Override
+    public User convertUserDtoToUser(UserDto userDto) {
+        return User.builder().username(userDto.getUsername()).password(userDto.getPassword()).build();
     }
 }
