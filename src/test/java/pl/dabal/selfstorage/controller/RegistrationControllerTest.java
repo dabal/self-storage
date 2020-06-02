@@ -13,6 +13,8 @@ import pl.dabal.selfstorage.model.User;
 import pl.dabal.selfstorage.model.dto.UserDto;
 import pl.dabal.selfstorage.service.UserService;
 
+import java.util.Locale;
+
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
@@ -92,7 +94,7 @@ class RegistrationControllerTest {
         )
                 .andExpect(status().is(302))
                 .andExpect(redirectedUrlPattern("**/login/"));
-        verify(userService).saveUser(any(User.class));
+        verify(userService).registerUser(any(User.class), any(Locale.class), anyString());
 
     }
 

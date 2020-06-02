@@ -13,4 +13,8 @@ public interface StorageService {
     Optional<Storage> getStorageByIdAndUser(Long id, User user);
 
     List<Item> getItemsForStorage(Storage storage);
+
+    Storage createStorage(User user, String name);
+
+    void save(Storage storage);
 }

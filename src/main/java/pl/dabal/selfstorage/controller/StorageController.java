@@ -33,4 +33,10 @@ public class StorageController {
         model.addAttribute("items", storageService.getItemsForStorage(storage));
         return "storage/storageDetails";
     }
+
+    @GetMapping
+    public String getAllStorageForUser(@AuthenticationPrincipal CurrentUser user, Model model) {
+        model.addAttribute("storages", storageService.getStorageListForUser(user.getUser()));
+        return "storage/listUser";
+    }
 }

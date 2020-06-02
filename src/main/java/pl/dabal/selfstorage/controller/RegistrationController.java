@@ -19,11 +19,14 @@ import org.springframework.web.server.ResponseStatusException;
 import pl.dabal.selfstorage.exception.FormFraudException;
 import pl.dabal.selfstorage.model.CurrentUser;
 import pl.dabal.selfstorage.model.Storage;
+import pl.dabal.selfstorage.model.User;
 import pl.dabal.selfstorage.model.dto.UserDto;
 import pl.dabal.selfstorage.service.StorageService;
 import pl.dabal.selfstorage.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Locale;
 
 @Controller
 @RequestMapping("/registration")
@@ -43,7 +46,7 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUser(@Validated UserDto userDto, BindingResult result, Model model) {
+    public String registerUser(@Validated UserDto userDto, BindingResult result, Model model, Locale locale, HttpServletRequest request) {
         if (result.hasErrors()) {
             model.addAttribute("userDto", userDto);
             return "registration/form";
@@ -58,8 +61,18 @@ public class RegistrationController {
             model.addAttribute("userDto", userDto);
             return "registration/form";
         }
-        userService.saveUser(userService.convertUserDtoToUser(userDto));
-        return "redirect:login";
+
+        userService.registerUser(userService.convertUserDtoToUser(userDto), locale, request.getRequestURL().toString() + "/confirm?token=");
+        return "registration/checkEmail";
+    }
+
+    @GetMapping("/confirm")
+    public String registrationConfirm(@RequestParam String token) {
+        User user = userService.findUserByToken(token);
+        if (user != null) {
+            userService.activateUser(user);
+        }
+        return "redirect:/login";
     }
 
 

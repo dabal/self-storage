@@ -37,4 +37,16 @@ public class StorageServiceImpl implements StorageService {
     public List<Item> getItemsForStorage(Storage storage) {
         return storage.getItems();
     }
+
+    @Override
+    public Storage createStorage(User user, String name) {
+        String propperName = (name == null ? "default" : name);
+        Storage storage = Storage.builder().user(user).name(propperName).build();
+        return storage;
+    }
+
+    @Override
+    public void save(Storage storage) {
+        storageRepository.save(storage);
+    }
 }
