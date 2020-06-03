@@ -6,10 +6,13 @@
 
 <jsp:include page="header.jsp"/>
 <form method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
+    <div><label> <spring:message code="loginForm.username"/>: <input type="text" name="username"/> </label></div>
+    <div><label> <spring:message code="loginForm.password"/><input type="password" name="password"/> </label></div>
+    <div><input type="submit" value="<spring:message code="loginForm.submit"/>"/></div>
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </form>
+<spring:message code="loginForm.dontHaveAnAccount"/>
+<a href="<c:url value="/registration"/>">
+    <spring:message code="loginForm.registerLabel"/></a>
 <jsp:include page="footer.jsp"/>
 
