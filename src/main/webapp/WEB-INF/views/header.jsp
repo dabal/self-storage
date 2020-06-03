@@ -8,6 +8,7 @@
 <head>
     <title>App titles</title>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css"/>
 </head>
 <body>
 <h1><spring:message code="app.title"/></h1>
