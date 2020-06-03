@@ -9,17 +9,19 @@
     <title>App titles</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="bootstrap/dist/css/bootstrap.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 </head>
 <body>
-<h1><spring:message code="app.title"/></h1>
-<a href="/about">about</a><br>
-<sec:authorize access="isAuthenticated()">
-<form action="<c:url value="/logout"/>" method="post">
-    <input type="submit" value="Wyloguj"><br>
-    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><br>
-</form>
+<div class="container">
+    <h1><spring:message code="app.title"/></h1>
+    <a href="/about">about</a><br>
+    <sec:authorize access="isAuthenticated()">
+    <form action="<c:url value="/logout"/>" method="post">
+        <input type="submit" value="Wyloguj"><br>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/><br>
+    </form>
 
-    <sec:authentication property="principal.username"></sec:authentication>
-</sec:authorize>
+        <sec:authentication property="principal.username"></sec:authentication>
+    </sec:authorize>
 
 

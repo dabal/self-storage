@@ -6,5 +6,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <hr>
 <spring:message code="app.footer"/>
+</div>
 </body>
 </html>
