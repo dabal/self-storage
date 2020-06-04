@@ -11,6 +11,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.ViewResultMatchers;
 import pl.dabal.selfstorage.model.User;
 import pl.dabal.selfstorage.model.dto.UserDto;
+import pl.dabal.selfstorage.service.EmailComposerService;
+import pl.dabal.selfstorage.service.EmailSenderService;
 import pl.dabal.selfstorage.service.UserService;
 
 import java.util.Locale;
@@ -33,6 +35,7 @@ class RegistrationControllerTest {
 
     @MockBean
     private UserService userService;
+
 
     @Test
     public void userShoulSeeRegistrationFormWithEmptyModelAndView() throws Exception {
@@ -92,10 +95,35 @@ class RegistrationControllerTest {
                         .param("password1", "password")
                         .with(csrf())
         )
-                .andExpect(status().is(302))
-                .andExpect(redirectedUrlPattern("**/login/"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("registration/checkEmail"));
         verify(userService).registerUser(any(User.class), any(Locale.class), anyString());
+    }
 
+    @Test
+    public void userWithValidLinkIsActivatedAndRedirectToLogin() throws Exception {
+        when(userService.findUserByToken("token")).thenReturn(User.builder().username("test@test.pl").password("password").build());
+        mockMvc.perform(get("/registration/confirm?token=token"))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrl("/login"));
+        verify(userService).findUserByToken("token");
+        verify(userService).activateUser(any(User.class));
+    }
+
+    @Test
+    public void userWithInvalidLinkIsNotActivatedButRedirectToLogin() throws Exception {
+        when(userService.findUserByToken("token")).thenReturn(null);
+        mockMvc.perform(get("/registration/confirm?token=token"))
+                .andExpect(status().is(302))
+                .andExpect(redirectedUrl("/login"));
+        verify(userService).findUserByToken("token");
+        verify(userService, times(0)).activateUser(any(User.class));
+    }
+
+    @Test
+    public void userWithoutTokenInConfirmationLinkGet400Error() throws Exception {
+        mockMvc.perform(get("/registration/confirm"))
+                .andExpect(status().is(400));
     }
 
 }
